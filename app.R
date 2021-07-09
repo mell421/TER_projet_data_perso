@@ -1,6 +1,7 @@
+#install.packages('htmlwidgets')
 library(shiny)
 library(shinydashboard)
-
+require(devtools)
 library(wordcloud2)
 # library('rsconnect')
 suppressWarnings(source("./fctR/sources.R"))
@@ -187,10 +188,10 @@ server <- function(input, output) {
             conclubis <- data.frame(aTestConcluBis())
             text <- conclubis[2]
         } else if(input$fct == "sem"){
-            sem <- data.frame(aTestSem())
+            sem <- data.frame(copy.sem())
             text <- sem[2]
         } else if(input$fct == "mois"){
-            mois <- data.frame(aTestMois())
+            mois <- data.frame(copy.mois())
             text <- mois[2]
         } else if(input$fct == "max"){
             max <- aTestMax()
@@ -269,10 +270,10 @@ server <- function(input, output) {
             conclubis <- data.frame(aTestConcluBis())
             text <- conclubis[2]
         } else if(input$fct == "sem"){
-            sem <- data.frame(aTestSem())
+            sem <- data.frame(copy.sem())
             text <- sem[2]
         } else if(input$fct == "mois"){
-            mois <- data.frame(aTestMois())
+            mois <- data.frame(copy.mois())
             text <- mois[2]
         } else if(input$fct == "max"){
             max <- aTestMax()
@@ -345,10 +346,10 @@ server <- function(input, output) {
             conclubis <- data.frame(aTestConcluBis())
             text <- conclubis[2]
         } else if(input$fct == "sem"){
-            sem <- data.frame(aTestSem())
+            sem <- data.frame(copy.sem())
             text <- sem[2]
         } else if(input$fct == "mois"){
-            mois <- data.frame(aTestMois())
+            mois <- data.frame(copy.mois())
             text <- mois[2]
         } else if(input$fct == "max"){
             max <- aTestMax()
@@ -390,7 +391,7 @@ server <- function(input, output) {
             # TextDoc <- tm_map(TextDoc, removeWords, stopwords("english"))
             # Remove your own stop word
             # specify your custom stopwords as a character vector
-            TextDoc <- tm_map(TextDoc, removeWords, c("conclu", "conclubis", "eff","the","titre",
+            TextDoc <- tm_map(TextDoc, removeWords, c("conclu", "conclubis", "eff","titre",
                                                       "mois","sem","conclucompi","conclucompibis"))
             # Remove punctuations
             TextDoc <- tm_map(TextDoc, removePunctuation)
@@ -594,13 +595,13 @@ server <- function(input, output) {
         data %>% filter(conclucompibis.... != "")
     })
     output$mois <- renderDataTable({
-        data <- data.frame(aTestMois())
-        data <- data[1:4]
+        data <- data.frame(copy.mois())
+        data <- data[1:5]
         data %>% filter(resumemois.... != "")
     })
     output$sem <- renderDataTable({
-        data <- data.frame(aTestSem())
-        data <- data[1:4]
+        data <- data.frame(copy.sem())
+        data <- data[1:5]
         data %>% filter(resumesem.... != "")
     })
     output$eff <- renderDataTable({
