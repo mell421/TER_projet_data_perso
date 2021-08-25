@@ -1,4 +1,4 @@
-#install.packages('htmlwidgets')
+# install.packages('shiny')
 library(shiny)
 library(shinydashboard)
 require(devtools)
