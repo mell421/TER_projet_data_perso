@@ -1,19 +1,16 @@
 # install.packages('shiny')
-library(shiny)
-library(shinydashboard)
+#library(shiny)
+#library(shinydashboard)
 require(devtools)
-library(wordcloud2)
-# library('rsconnect')
+
 suppressWarnings(source("./fctR/sources.R"))
-suppressWarnings(library(tidyverse))
-# options(encoding = "UTF-8")
-# deployApp()
 
 
+# ---------------------------------
 header <- dashboardHeader(
-    title = "My application"
+    title = "My tvt1me"
 )
-
+# ---------------------------------
 sidebar <- dashboardSidebar(
     sidebarMenu(
         menuItem("Wordcloud", tabName = "dashboard", icon = icon("dashboard")),
@@ -23,12 +20,14 @@ sidebar <- dashboardSidebar(
 
     )
 )
-
+# ---------------------------------
 sidebarpanel <- sidebarPanel(
     selectInput("fct","function:",
                 list("accueil"="accueil",
                      "en_cours"="en_cours",
                      "recent"="recent",
+                     "pageappres"="pageappres",
+                     "pageappressup"="pageappressup",
                      "copy"="copy",
                      "conclu"="conclu",
                      "conclubis"="conclubis",
@@ -60,7 +59,7 @@ sidebarpanel <- sidebarPanel(
     textAreaInput("texte","text:","")
 
 )
-
+# ---------------------------------
 ui <- dashboardPage(
     header,
     sidebar,
@@ -172,7 +171,7 @@ ui <- dashboardPage(
         )
     )
 )
-
+# ---------------------------------
 server <- function(input, output) {
 
     # wordcloud
@@ -214,6 +213,12 @@ server <- function(input, output) {
         } else if(input$fct == "recent"){
             recent <- data.frame(aAccueil())
             text <- recent$Titre_1
+        }  else if(input$fct == "pageappres"){
+            pa <- data.frame(pageappres())
+            text <- pa[2:16]
+        } else if(input$fct == "pageappressup"){
+            pas <- data.frame(pageappressup())
+            text <- pas[2:16]
         }
 
         main <- function(text){
@@ -296,6 +301,12 @@ server <- function(input, output) {
         } else if(input$fct == "recent"){
             recent <- data.frame(aAccueil())
             text <- recent$Titre_1
+        } else if(input$fct == "pageappres"){
+            pa <- data.frame(pageappres())
+            text <- pa[2:16]
+        } else if(input$fct == "pageappressup"){
+            pas <- data.frame(pageappressup())
+            text <- pas[2:16]
         }
         max <- input$size3
         TextDoc <- Corpus(VectorSource(text))
@@ -372,6 +383,12 @@ server <- function(input, output) {
         } else if(input$fct == "recent"){
             recent <- data.frame(aAccueil())
             text <- recent$Titre_1
+        }  else if(input$fct == "pageappres"){
+            pa <- data.frame(pageappres())
+            text <- pa[2:16]
+        } else if(input$fct == "pageappressup"){
+            pas <- data.frame(pageappressup())
+            text <- pas[2:16]
         }
 
         main <- function(text){
@@ -576,6 +593,8 @@ server <- function(input, output) {
     })
 
     # listes
+
+
     output$hist <- renderDataTable({
         data <- data.frame(listDesc.desc())
         data %>% select(tisaep,Horodateur,status)
@@ -638,7 +657,9 @@ server <- function(input, output) {
         esc
     })
 }
-
+# ---------------------------------
 shinyApp(ui, server)
 
+# options(encoding = "UTF-8")
+# deployApp()
 

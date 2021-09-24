@@ -35,7 +35,12 @@ loadMesPackages <- function(){
   library("syuzhet")
   library("ggplot2")
   library(utf8)
-  # library(dplyr)
+  library(wordcloud2)
+  library(shiny)
+  library(shinydashboard)
+  library(tidyverse)
+  library(dplyr)
+  library('rsconnect')
 }
 
 loadMesPackages()
